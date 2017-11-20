@@ -1,0 +1,22 @@
+{
+  "name": "mongoose_study",
+  "version": "1.0.0",
+  "description": "mongoose 学习笔记",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dragon8897/mongoose_study.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dragon8897/mongoose_study/issues"
+  },
+  "homepage": "https://github.com/dragon8897/mongoose_study#readme",
+  "dependencies": {
+    "mongoose": "^4.13.4"
+  }
+}

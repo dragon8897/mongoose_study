@@ -25,3 +25,32 @@ mongoose 学习笔记
 	```
 	mongoose.Promise = global.Promise;
 	```
+
+
+## Day1
+
+1. 实例方法
+
+	```
+	animalSchema.methods.findSimilarTypes = function(cb) {
+  		return this.model('Animal').find({ type: this.type }, cb);
+	};
+	```
+2. 静态方法
+
+	```
+	animalSchema.statics.findByName = function(name, cb) {
+		return this.find({ name: new RegExp(name, 'i') }, cb);
+	};
+	```
+3. 查询帮助方法（链式调用）
+
+	```
+	animalSchema.query.byName = function(name) {
+		return this.find({ name: new RegExp(name, 'i') });
+	};
+	```
+	
+### Questions
+- 这三种方法的调用方法有什么区别？
+
