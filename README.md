@@ -54,3 +54,50 @@ mongoose 学习笔记
 ### Questions
 - 这三种方法的调用方法有什么区别？
 
+## Day2
+
+1. 虚拟属性（不会实际存储）
+
+	```
+	personSchema.virtual('fullName').
+	  get(function() { return this.name.first + ' ' + this.name.last; }).
+	  set(function(v) {
+	    this.name.first = v.substr(0, v.indexOf(' '));
+	    this.name.last = v.substr(v.indexOf(' ') + 1);
+	  });
+	```
+
+2. 别名
+
+	```
+	var personSchema = new Schema({
+	  n: {
+	    type: String,
+	    // Now accessing `name` will get you the value of `n`, and setting `n` will set the value of `name`
+	    alias: 'name'
+	  }
+	});
+	
+	```
+	
+3. Schema 配置属性
+    - [autoIndex](http://mongoosejs.com/docs/guide.html#autoIndex)
+    - [capped](http://mongoosejs.com/docs/guide.html#capped)
+    - [collection](http://mongoosejs.com/docs/guide.html#collection)
+    - [emitIndexErrors](http://mongoosejs.com/docs/guide.html#emitIndexErrors)
+    - [id](http://mongoosejs.com/docs/guide.html#id)
+    - [_id](http://mongoosejs.com/docs/guide.html#_id)
+    - [minimize](http://mongoosejs.com/docs/guide.html#minimize)
+    - [read](http://mongoosejs.com/docs/guide.html#read)
+    - [safe](http://mongoosejs.com/docs/guide.html#safe)
+    - [shardKey](http://mongoosejs.com/docs/guide.html#shardKey)
+    - [strict](http://mongoosejs.com/docs/guide.html#strict)
+    - [toJSON](http://mongoosejs.com/docs/guide.html#toJSON)
+    - [toObject](http://mongoosejs.com/docs/guide.html#toObject)
+    - [typeKey](http://mongoosejs.com/docs/guide.html#typeKey)
+    - [validateBeforeSave](http://mongoosejs.com/docs/guide.html#validateBeforeSave)
+    - [versionKey](http://mongoosejs.com/docs/guide.html#versionKey)
+    - [collation](http://mongoosejs.com/docs/guide.html#collation)
+    - [skipVersioning](http://mongoosejs.com/docs/guide.html#skipVersioning)
+    - [timestamps](http://mongoosejs.com/docs/guide.html#timestamps)
+    - [retainKeyOrder](http://mongoosejs.com/docs/guide.html#retainKeyOrder)
