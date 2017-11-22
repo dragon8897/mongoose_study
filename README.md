@@ -101,3 +101,63 @@ mongoose 学习笔记
     - [skipVersioning](http://mongoosejs.com/docs/guide.html#skipVersioning)
     - [timestamps](http://mongoosejs.com/docs/guide.html#timestamps)
     - [retainKeyOrder](http://mongoosejs.com/docs/guide.html#retainKeyOrder)
+
+
+## Day3
+
+1. Schema 的类型定义
+
+	- String
+	- Number
+	- Data
+	- Buffer
+	- Boolean
+	- Mixed
+	- Objectid
+	- Array
+
+2. 类型属性
+
+	- All:
+		- required
+		- default
+		- select
+		- validate
+		- get
+		- set
+		- alias
+
+	- Indexes:
+		- index
+		- unique
+		- sparse
+
+	- String:
+		- lowercase
+		- uppercase
+		- trim
+		- match
+		- enum
+
+	- Number:
+		- min
+		- max
+
+	- Data:
+		- min
+		- max
+
+### Notice
+
+- Dates 更改后需要使用 `doc.markmodified()` 标记更改
+
+	```
+	var Assignment = mongoose.model('Assignment', { dueDate: Date });
+	Assignment.findOne(function (err, doc) {
+	  doc.dueDate.setMonth(3);
+	  doc.save(callback); // THIS DOES NOT SAVE YOUR CHANGE
+	  
+	  doc.markModified('dueDate');
+	  doc.save(callback); // works
+	})
+	```
