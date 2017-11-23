@@ -161,3 +161,52 @@ mongoose 学习笔记
 	  doc.save(callback); // works
 	})
 	```
+	
+## Day4
+
+1. `model` 创建的两种方式
+
+	- `var Tank = mongoose.model('Tank', yourSchema);`
+	- 通过 connection 创建
+
+		```
+		var connection = mongoose.createConnection('mongodb://localhost:27017/test');
+		var Tank = connection.model('Tank', yourSchema);
+		```
+		
+2. `document` 操作
+
+	- add
+
+	```
+	Tank.create({ size: 'small' }, function (err, small) {
+	  if (err) return handleError(err);
+	  // saved!
+	})
+	```
+	- remove
+
+	```
+	Tank.remove({ size: 'large' }, function (err) {
+	  if (err) return handleError(err);
+	  // removed!
+	});
+	```
+	- query
+
+	```
+	Tank.find({ size: 'small' }).where('createdDate').gt(oneYearAgo).exec(callback);
+	```
+	- update
+
+	```
+	Tank.findById(id, function (err, tank) {
+	  if (err) return handleError(err);
+	  
+	  tank.size = 'large';
+	  tank.save(function (err, updatedTank) {
+	    if (err) return handleError(err);
+	    res.send(updatedTank);
+	  });
+	});
+	```
