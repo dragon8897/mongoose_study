@@ -210,3 +210,69 @@ mongoose 学习笔记
 	  });
 	});
 	```
+	
+## Day5
+
+1. 子文档
+
+    ```
+    var childSchema = new Schema({ name: 'string' });
+
+    var parentSchema = new Schema({
+      // Array of subdocuments
+      children: [childSchema],
+      // Single nested subdocuments. Caveat: single nested subdocs only work
+      // in mongoose >= 4.2.0
+      child: childSchema
+    });
+    ```
+
+	- 增
+
+	   ```
+	   parent.children.push({ name: 'Liesl' });
+	   ```
+	- 删
+
+	   ```
+        // Equivalent to `parent.children.pull(_id)`
+        parent.children.id(_id).remove();
+        // Equivalent to `parent.child = null`
+        parent.child.remove();
+	   ```
+	- 查
+
+	   ```
+	   var doc = parent.children.id(_id);
+	   ```
+	- hook
+
+	   ```
+        // Below code will print out 1-4 in order
+        var childSchema = new mongoose.Schema({ name: 'string' });
+        
+        childSchema.pre('validate', function(next) {
+          console.log('2');
+          next();
+        });
+        
+        childSchema.pre('save', function(next) {
+          console.log('3');
+          next();
+        });
+        
+        var parentSchema = new mongoose.Schema({
+          child: childSchema,
+            });
+            
+        parentSchema.pre('validate', function(next) {
+          console.log('1');
+          next();
+        });
+        
+        parentSchema.pre('save', function(next) {
+          console.log('4');
+          next();
+        });
+	   ```
+
