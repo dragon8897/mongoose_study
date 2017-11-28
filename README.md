@@ -276,3 +276,32 @@ mongoose 学习笔记
         });
 	   ```
 
+## Day6
+
+1. 查询数据的格式
+
+    ```
+    Person.
+    find({
+      occupation: /host/,
+      'name.last': 'Ghost',
+      age: { $gt: 17, $lt: 66 },
+      likes: { $in: ['vaporizing', 'talking'] }
+    }).
+    limit(10).
+    sort({ occupation: -1 }).
+    select({ name: 1, occupation: 1 }).
+    exec(callback);
+    ```
+    
+2. 数据量较大是采用流处理模式
+
+    ```
+    var cursor = Person.find({ occupation: /host/ }).cursor();
+    cursor.on('data', function(doc) {
+      // Called once for every document
+    });
+    cursor.on('close', function() {
+      // Called when done
+    });
+    ```
