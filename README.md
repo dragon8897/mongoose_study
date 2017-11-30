@@ -305,3 +305,76 @@ mongoose 学习笔记
       // Called when done
     });
     ```
+    
+## Day7
+
+### 校验
+
+1. 內建校验
+
+    - All
+        - required
+    - Number
+        - min
+        - max
+    - String
+        - enum
+        - match
+        - maxlength
+        - minlength
+2. 自定义校验
+    - 同步校验
+
+        ```
+        var userSchema = new Schema({
+          phone: {
+            type: String,
+            validate: {
+              validator: function(v) {
+                return /\d{3}-\d{3}-\d{4}/.test(v);
+              },
+              message: '{VALUE} is not a valid phone number!'
+            },
+            required: [true, 'User phone number required']
+          }
+        });
+        ```
+    - 异步校验
+
+        ```
+        var userSchema = new Schema({
+          phone: {
+            type: String,
+            validate: {
+              // `isAsync` is not strictly necessary in mongoose 4.x, but relying
+              // on 2 argument validators being async is deprecated. Set the
+              // `isAsync` option to `true` to make deprecation warnings go away.
+              isAsync: true,
+              validator: function(v, cb) {
+                setTimeout(function() {
+                  var phoneRegex = /\d{3}-\d{3}-\d{4}/;
+                  var msg = v + ' is not a valid phone number!';
+                  // First argument is a boolean, whether validator succeeded
+                  // 2nd argument is an optional error message override
+                  cb(phoneRegex.test(v), msg);
+                }, 5);
+              },
+              // Default error message, overridden by 2nd argument to `cb()` above
+              message: 'Default error message'
+            },
+            required: [true, 'User phone number required']
+          }
+        });
+        ```
+3. update 时的校验
+    - 使用配置 `runValidators: true`
+
+        ```
+        var opts = { runValidators: true };
+        User.update({}, { phone: '201-555-012d' }, opts, function (err) {
+            if (err) {
+                assert.equal(err.errors.phone.message, 'invalid s number!');
+            }
+        });
+        ```
+
